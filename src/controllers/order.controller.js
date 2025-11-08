@@ -4,12 +4,12 @@ import {publishToQueue} from "../broker/broker.js";
 
 export const createOrder = async (req, res) => {
     try {
-        const userResponse = await axios.get(`http://localhost:3000/api/auth/users/me`, {
+        const userResponse = await axios.get(`https://revoire-auth-1.onrender.com/api/auth/users/me`, {
             headers: {
                 Authorization: `Bearer ${req.cookies.token}`
             }
         });
-        const cartResponse = await axios.get(`http://localhost:3002/api/cart`, {
+        const cartResponse = await axios.get(`https://revoire-cart.onrender.com/api/cart`, {
             headers: {
                 Authorization: `Bearer ${req.cookies.token}`
             }
@@ -35,7 +35,7 @@ export const createOrder = async (req, res) => {
 
         await Promise.all([
             publishToQueue('ORDER_SELLER_DASHBOARD.ORDER_CREATED', order),
-            axios.delete(`http://localhost:3002/api/cart/clear`, {
+            axios.delete(`https://revoire-cart.onrender.com/api/cart/clear`, {
             headers: {
                 Authorization: `Bearer ${req.cookies.token}`
             }
